@@ -1,21 +1,17 @@
 <script setup lang="ts">
 
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import type {MenuItem} from "../../types/MenuItem.ts";
-import {getMenuList} from "../../api/common.ts";
 import {useRoute} from "vue-router";
 
 const props = defineProps({
-  isMobileMenu: {type: Boolean, default: false}
+  isMobileMenu: {type: Boolean, default: false},
+  menuList: {type: Array<MenuItem>, default: []}
 })
 const route = useRoute()
 
-const menuList = ref<MenuItem[]>([])
 const subMenuShowId = ref(-1)
 
-onMounted(async () => {
-   await getMenuList().then(res => menuList.value = res.data)
-})
 
 function showSubMenu(menu: MenuItem) {
   if (!menu.childrenMenu || menu.childrenMenu.length === 0) {
@@ -39,7 +35,7 @@ function computeActiveClass(menu: MenuItem) {
       <li class="nav_item_common" :class="computeActiveClass(menu)" v-for="menu of menuList" :key="menu.id" @mouseenter="showSubMenu(menu)" @mouseleave="hideSubMenu">
         <RouterLink class="nav_link" :to="{path: menu.router}" :id="'menu_' + menu.id">
           <span :class="menu.iconClass"></span>&nbsp;{{ menu.text }}
-          <span v-if="menu.childrenMenu.length > 0" class="nav_sub_icon el-icon-arrow-down"></span>
+          <span v-if="menu.childrenMenu.length > 0" class="nav_sub_icon iconfont iconxiangxia"></span>
         </RouterLink>
         <el-collapse-transition>
           <ul v-show="subMenuShowId === menu.id" class="nav_list_common nav_sub_list_common" v-if="menu.childrenMenu.length > 0">

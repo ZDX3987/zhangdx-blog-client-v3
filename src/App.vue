@@ -1,6 +1,19 @@
 <script setup lang="ts">
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import Bg from "./components/layout/Bg.vue";
+import {onMounted, onUnmounted} from "vue";
+
+onMounted(() => {
+  window.addEventListener('scroll', scrollFixedHeader)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', scrollFixedHeader)
+})
+
+function scrollFixedHeader() {
+  const headerEl = document.getElementsByClassName('fixed_header')
+}
 
 </script>
 

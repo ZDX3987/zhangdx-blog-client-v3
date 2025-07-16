@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {getAuthorization, setAuthorization} from "../utils/auth-storage.ts";
-import {ElMessage} from 'element-plus'
+import {ElMessage, ElNotification} from 'element-plus'
 import Router from '../router/index.ts'
 
 const service = axios.create({
@@ -10,7 +10,7 @@ const service = axios.create({
 
 // 请求计数器
 let requestNum = 0;
-let notification = null;
+let notification: any = null;
 service.interceptors.request.use(request => {
     const token = getAuthorization()
     token && (request.headers.Authorization = token)
@@ -69,13 +69,13 @@ function errorHandle(response) {
     if (status === 500) {
         return;
     }
-    notification = Notification.error({
+    notification = ElNotification.error({
         title: '错误（' + status + ')',
         message: '服务器出现错误，请稍后重试！',
         showClose: false
     });
     setInterval(() => {
-        Message.closeAll();
+        ElMessage.closeAll();
     }, 10);
     switch (status) {
         case 401:
