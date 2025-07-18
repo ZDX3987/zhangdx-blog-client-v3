@@ -56,8 +56,9 @@ function showMobileMenu() {
     </el-col>
     <el-col :md="headerLayout.rightBar.md" :sm="headerLayout.rightBar.sm" :xs="headerLayout.rightBar.xs">
       <el-tooltip placement="bottom">
-
+        <span class="right-bar-icon iconfont icontaiyang1"></span>
       </el-tooltip>
+      <span class="right-bar-icon iconfont iconfangdajing"></span>
     </el-col>
   </el-row>
   <el-collapse-transition>
@@ -90,5 +91,9 @@ function showMobileMenu() {
 }
 .mobile_toggler_icon {
   color: var(--fontColor);
+}
+.right-bar-icon {
+  color: var(--fontColor);
+  font-size: 20px;
 }
 </style>

@@ -62,11 +62,13 @@ function computeActiveClass(menu: MenuItem) {
   margin: 0;
 }
 .nav_sub_icon {
+  display: inline-block;
   transition: transform 0.2s ease-in-out;
 }
 .nav_item_common:hover .nav_sub_icon {
   transform: rotate(180deg);
 }
+
 a {
   text-decoration: none;
   color: var(--fontColor) !important;

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "792344",
+      "name": "moon-b-月亮",
+      "font_class": "moonbyueliang",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "34631572",
+      "name": "太阳",
+      "font_class": "taiyang1",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
       "icon_id": "4121383",
       "name": "cc-close-crude",
       "font_class": "close",
@@ -160,13 +174,6 @@
       "unicode_decimal": 58905
     },
     {
-      "icon_id": "8140784",
-      "name": "月亮",
-      "font_class": "yueliang",
-      "unicode": "e644",
-      "unicode_decimal": 58948
-    },
-    {
       "icon_id": "10679972",
       "name": "主页",
       "font_class": "zhuye",
@@ -179,13 +186,6 @@
       "font_class": "fangdajing",
       "unicode": "e673",
       "unicode_decimal": 58995
-    },
-    {
-      "icon_id": "14541668",
-      "name": "太阳",
-      "font_class": "taiyang",
-      "unicode": "e604",
-      "unicode_decimal": 58884
     },
     {
       "icon_id": "14715376",
