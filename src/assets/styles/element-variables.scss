@@ -3,6 +3,12 @@
     'primary': (
       'base': #55bd66,
     ),
+  ),
+  $dialog: (
+    'bg-color': var(--bgColor),
+  ),
+  $text-color: (
+    'primary': var(--fontColor)
   )
 );
 

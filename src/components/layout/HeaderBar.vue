@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, type ComputedRef, onMounted, ref} from "vue";
 import MenuBar from "./MenuBar.vue";
-import {useMainStore} from "../../stores/mobileMenu.ts";
+import {useMainStore} from "../../stores/store.ts";
 import type {MenuItem} from "../../types/MenuItem.ts";
-import {getMenuList} from "../../api/common.ts";
+import {getMenuList, logout} from "../../api/common.ts";
+import type {UserInfo} from "../../types/UserInfo.ts";
+import {ThemeEnum} from "../../types/ThemeEnum.ts";
+import {useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
+import {removeAuthorization} from "../../utils/auth-storage.ts";
 
 const headerBarTitle = ref('ZHANGDX')
 const headerLayout = ref({
@@ -25,11 +30,17 @@ const headerLayout = ref({
     xs: {offset:2, span: 7}
   }
 })
-const mainStore = useMainStore()
+const router = useRouter()
+const store = useMainStore()
 const mobileMenuShowed = computed(() => {
-  return mainStore.$state.mobileMenuShowed
+  return store.mobileMenuShowed
 })
-
+const userInfo: ComputedRef<UserInfo | null> = computed(() => {
+  return store.userInfo
+})
+const currentTheme: ComputedRef<ThemeEnum> = computed(() => {
+  return store.theme
+})
 const menuList = ref<MenuItem[]>([])
 
 onMounted(async () => {
@@ -37,7 +48,29 @@ onMounted(async () => {
 })
 
 function showMobileMenu() {
-  mainStore.showMobileMenu(!mobileMenuShowed.value)
+  store.showMobileMenu(!mobileMenuShowed.value)
+}
+function toggleTheme() {
+  let newTheme = currentTheme.value === ThemeEnum.LIGHT ? ThemeEnum.DARK : ThemeEnum.LIGHT
+  store.toggleTheme(newTheme)
+}
+function showLoginDialog() {
+  store.toggleLoginDialog(true)
+}
+function userInfoCommand(command: string) {
+  switch(command) {
+    case 'userCenter':
+      router.push({name: 'UserCenter'})
+      break
+    case 'logout':
+      logout().then(res => {
+        store.updateUserInfo(null)
+        removeAuthorization()
+        router.push({name: 'Home'})
+        ElMessage.success(res.msg)
+      })
+      break
+  }
 }
 </script>
 <template>
@@ -55,14 +88,29 @@ function showMobileMenu() {
       <MenuBar :is-mobile-menu="false" :menu-list="menuList"></MenuBar>
     </el-col>
     <el-col :md="headerLayout.rightBar.md" :sm="headerLayout.rightBar.sm" :xs="headerLayout.rightBar.xs">
-      <el-tooltip placement="bottom">
-        <span class="right-bar-icon iconfont icontaiyang1"></span>
+      <el-tooltip placement="bottom" :effect="currentTheme === 'light' ? 'dark' : 'light'" :content="currentTheme === 'light' ? '切换至黑夜' : '切换至白天'">
+        <span class="right_bar_icon iconfont " :class="currentTheme === 'light' ? 'iconbaitian-qing' : 'iconyewan'" @click="toggleTheme"></span>
       </el-tooltip>
-      <span class="right-bar-icon iconfont iconfangdajing"></span>
+      <span class="right_bar_icon iconfont iconsousuo_sousuo"></span>
+      <el-dropdown v-if="userInfo" @command="userInfoCommand">
+        <span class="el-dropdown-link">111
+          <el-avatar class="user_avatar" :src="userInfo.avatar" :title="userInfo.nickname"></el-avatar>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item class="iconfont icondenglu" command="userCenter">&nbsp;个人中心</el-dropdown-item>
+            <el-dropdown-item class="iconfont icontuichudenglu" command="logout">&nbsp;退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <span v-else class="right_bar_icon iconfont icondenglu" @click="showLoginDialog"></span>
     </el-col>
   </el-row>
   <el-collapse-transition>
     <MenuBar class="hidden-md-and-up" v-show="mobileMenuShowed" :menu-list="menuList" :is-mobile-menu="true"></MenuBar>
+  </el-collapse-transition>
+  <el-collapse-transition>
+
   </el-collapse-transition>
 </div>
 </template>
@@ -92,8 +140,13 @@ function showMobileMenu() {
 .mobile_toggler_icon {
   color: var(--fontColor);
 }
-.right-bar-icon {
+.right_bar_icon {
   color: var(--fontColor);
   font-size: 20px;
+  margin-right: 10px;
+}
+.user_avatar {
+  width: 30px;
+  height: 30px;
 }
 </style>

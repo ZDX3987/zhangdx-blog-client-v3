@@ -2,6 +2,7 @@
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import Bg from "./components/layout/Bg.vue";
 import {onMounted, onUnmounted} from "vue";
+import LoginDialog from "./components/dialog/LoginDialog.vue";
 
 onMounted(() => {
   window.addEventListener('scroll', scrollFixedHeader)
@@ -23,6 +24,7 @@ function scrollFixedHeader() {
     <div class="fixed_header">
       <HeaderBar></HeaderBar>
     </div>
+    <LoginDialog/>
   </el-container>
 </template>
 
