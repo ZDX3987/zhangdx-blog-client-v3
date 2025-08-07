@@ -9,6 +9,10 @@
   ),
   $text-color: (
     'primary': var(--fontColor)
+  ),
+  $border-color: (
+    '': var(--borderColor),
+    'light': var(--borderColor)
   )
 );
 

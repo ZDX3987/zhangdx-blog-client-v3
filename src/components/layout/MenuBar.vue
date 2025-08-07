@@ -60,6 +60,7 @@ function computeActiveClass(menu: MenuItem) {
   background-color: var(--bgColor);
   list-style: none;
   margin: 0;
+  z-index: 1000;
 }
 .nav_sub_icon {
   display: inline-block;

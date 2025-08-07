@@ -9,9 +9,10 @@ import {ThemeEnum} from "../../types/ThemeEnum.ts";
 import {useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
 import {removeAuthorization} from "../../utils/auth-storage.ts";
+import SearchBar from "./SearchBar.vue";
 
-const headerBarTitle = ref('ZHANGDX')
-const headerLayout = ref({
+const headerBarTitle = 'ZHANGDX'
+const headerLayout = {
   leftBar: {
     sm: 2,
     xs: 2
@@ -29,7 +30,7 @@ const headerLayout = ref({
     sm: {offset:6, span: 3},
     xs: {offset:2, span: 7}
   }
-})
+}
 const router = useRouter()
 const store = useMainStore()
 const mobileMenuShowed = computed(() => {
@@ -40,6 +41,9 @@ const userInfo: ComputedRef<UserInfo | null> = computed(() => {
 })
 const currentTheme: ComputedRef<ThemeEnum> = computed(() => {
   return store.theme
+})
+const showSearchBar = computed(() => {
+  return store.showSearchBar
 })
 const menuList = ref<MenuItem[]>([])
 
@@ -56,6 +60,9 @@ function toggleTheme() {
 }
 function showLoginDialog() {
   store.toggleLoginDialog(true)
+}
+function openSearchBar() {
+  store.toggleShowSearchBar(!showSearchBar.value)
 }
 function userInfoCommand(command: string) {
   switch(command) {
@@ -91,9 +98,9 @@ function userInfoCommand(command: string) {
       <el-tooltip placement="bottom" :effect="currentTheme === 'light' ? 'dark' : 'light'" :content="currentTheme === 'light' ? '切换至黑夜' : '切换至白天'">
         <span class="right_bar_icon iconfont " :class="currentTheme === 'light' ? 'iconbaitian-qing' : 'iconyewan'" @click="toggleTheme"></span>
       </el-tooltip>
-      <span class="right_bar_icon iconfont iconsousuo_sousuo"></span>
+      <span class="right_bar_icon iconfont iconsousuo_sousuo" @click.stop="openSearchBar"></span>
       <el-dropdown v-if="userInfo" @command="userInfoCommand">
-        <span class="el-dropdown-link">111
+        <span class="el-dropdown-link">
           <el-avatar class="user_avatar" :src="userInfo.avatar" :title="userInfo.nickname"></el-avatar>
         </span>
         <template #dropdown>
@@ -110,7 +117,7 @@ function userInfoCommand(command: string) {
     <MenuBar class="hidden-md-and-up" v-show="mobileMenuShowed" :menu-list="menuList" :is-mobile-menu="true"></MenuBar>
   </el-collapse-transition>
   <el-collapse-transition>
-
+    <SearchBar v-show="showSearchBar"/>
   </el-collapse-transition>
 </div>
 </template>

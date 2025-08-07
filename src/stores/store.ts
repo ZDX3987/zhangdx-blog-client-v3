@@ -8,7 +8,8 @@ export const useMainStore = defineStore('mainStore', {
         // 登录用户信息
         userInfo: null as UserInfo | null,
         theme: ThemeEnum.LIGHT as ThemeEnum,
-        showLoginDialog: false as boolean
+        showLoginDialog: false as boolean,
+        showSearchBar: false as boolean
     }),
     actions: {
         showMobileMenu(showed: boolean) {
@@ -24,6 +25,9 @@ export const useMainStore = defineStore('mainStore', {
         },
         toggleLoginDialog(show: boolean) {
             this.showLoginDialog = show
+        },
+        toggleShowSearchBar(show: boolean) {
+            this.showSearchBar = show
         }
     }
 })
