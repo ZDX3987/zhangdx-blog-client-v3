@@ -7,6 +7,12 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {title: '首页'}
+    },
+    {
+        path: '/article/:articleId.html',
+        name: 'ArticleDetail',
+        component: () => import('../views/ArticleDetail.vue'),
+        meta: {title: '文章详情'}
     }
 ]
 
