@@ -28,27 +28,29 @@ function close() {
 </script>
 
 <template>
-<el-dialog title="授权登录" v-model="showDialog" @close="close">
-  <el-row type="flex" justify="center">
-    <el-col v-for="type of loginType" :key="type.type" :xl="1" :md="2" :sm="4">
-        <span class="login_type_item" :class="type.icon"
-              :title="type.text"
-              :style="{color:type.color}" @click="launchLogin(type.type)"></span>
+<el-dialog title="授权登录" v-model="showDialog" @close="close" center>
+  <el-row type="flex" justify="center" class="dialog_body_row">
+    <el-col v-for="type of loginType" :key="type.type" :xl="1" :md="2" :sm="4" :xs="5">
+        <span class="login_type_item" :class="type.icon" :title="type.text" :style="{color:type.color}" @click="launchLogin(type.type)"></span>
     </el-col>
   </el-row>
-  <el-row type="flex" justify="center">
-    <el-col :span="12" :offset="6">
-      <p class="agreement_info">授权登录即表示同意获取用户信息注册本系统账号</p>
-    </el-col>
-  </el-row>
+  <template #footer>
+    <p class="agreement_info">授权登录即表示同意获取用户信息注册本系统账号</p>
+  </template>
 </el-dialog>
 </template>
 
 <style scoped>
+.dialog_body_row {
+  padding-top: 20px;
+}
 .login_type_item {
   font-size: 30px;
 }
 .agreement_info {
   color: #8c939d;
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-size: 14px;
 }
 </style>
