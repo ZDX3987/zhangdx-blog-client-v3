@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {type AxiosResponse} from 'axios'
 import {getAuthorization, setAuthorization} from "../utils/auth-storage.ts";
 import {ElMessage, ElNotification} from 'element-plus'
 import Router from '../router/index.ts'
@@ -26,6 +26,9 @@ service.interceptors.response.use(response => {
     let data: ApiResponse<any> = response.data;
     processCommonResponseCode(data)
     storageToken(response)
+    if (data.code !== 200) {
+        return Promise.reject(data.msg)
+    }
     return data
 }, error => {
     if (notification && requestNum <= 0) {
@@ -34,7 +37,7 @@ service.interceptors.response.use(response => {
     let resp = error.response;
     errorHandle(resp);
     requestNum = 0;
-    return Promise.reject(resp.data);
+    return Promise.reject(error);
 })
 
 export interface ApiResponse<T> {
@@ -55,7 +58,7 @@ function processCommonResponseCode(responseData: ApiResponse<any>) {
     }
 }
 
-function storageToken(response) {
+function storageToken(response: AxiosResponse<any>) {
     if (response.config.url === '/api/login') {
         let token = response.headers.authorization;
         if (token) {
@@ -64,7 +67,7 @@ function storageToken(response) {
     }
 }
 
-function errorHandle(response) {
+function errorHandle(response: AxiosResponse<any>) {
     let status = response.status;
     if (status === 500) {
         return;

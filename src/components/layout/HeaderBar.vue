@@ -50,7 +50,7 @@ const showSearchBar = computed(() => {
 const menuList = ref<MenuItem[]>([])
 
 onMounted(async () => {
-  await getMenuList().then(res => menuList.value = res.data)
+  menuList.value = await getMenuList()
 })
 
 function showMobileMenu() {
