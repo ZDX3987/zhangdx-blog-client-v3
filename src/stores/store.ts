@@ -9,7 +9,8 @@ export const useMainStore = defineStore('mainStore', {
         userInfo: null as UserInfo | null,
         theme: ThemeEnum.LIGHT as ThemeEnum,
         showLoginDialog: false as boolean,
-        showSearchBar: false as boolean
+        showSearchBar: false as boolean,
+        blogName: 'ZHANGDX'
     }),
     actions: {
         showMobileMenu(showed: boolean) {

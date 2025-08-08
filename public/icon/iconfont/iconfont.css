@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1923478 */
-  src: url('iconfont.woff2?t=1754568071006') format('woff2'),
-       url('iconfont.woff?t=1754568071006') format('woff'),
-       url('iconfont.ttf?t=1754568071006') format('truetype');
+  src: url('iconfont.woff2?t=1754634573066') format('woff2'),
+       url('iconfont.woff?t=1754634573066') format('woff'),
+       url('iconfont.ttf?t=1754634573066') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.iconxinlangweibo:before {
+  content: "\e604";
+}
+
+.iconyouxiang1:before {
+  content: "\e616";
+}
+
+.icongithub-fill:before {
+  content: "\e885";
 }
 
 .icontuichudenglu:before {
@@ -107,10 +119,6 @@
 
 .iconweixin1:before {
   content: "\e643";
-}
-
-.iconweibo1193419easyiconnet:before {
-  content: "\e60d";
 }
 
 .iconcoffee:before {

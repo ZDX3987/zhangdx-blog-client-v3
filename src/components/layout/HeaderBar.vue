@@ -11,7 +11,6 @@ import {ElMessage} from "element-plus";
 import {removeAuthorization} from "../../utils/auth-storage.ts";
 import SearchBar from "./SearchBar.vue";
 
-const headerBarTitle = 'ZHANGDX'
 const headerLayout = {
   leftBar: {
     sm: 2,
@@ -33,6 +32,9 @@ const headerLayout = {
 }
 const router = useRouter()
 const store = useMainStore()
+const headerBarTitle = computed(() => {
+  return store.blogName
+})
 const mobileMenuShowed = computed(() => {
   return store.mobileMenuShowed
 })
