@@ -4,6 +4,7 @@ import Bg from "./components/layout/Bg.vue";
 import {onMounted, onUnmounted} from "vue";
 import LoginDialog from "./components/dialog/LoginDialog.vue";
 import Footer from "./components/layout/Footer.vue";
+import {useRoute} from "vue-router";
 
 onMounted(() => {
   window.addEventListener('scroll', scrollFixedHeader)
@@ -17,6 +18,8 @@ function scrollFixedHeader() {
   const headerEl = document.getElementsByClassName('fixed_header')
 }
 
+const route = useRoute()
+
 </script>
 
 <template>
@@ -25,7 +28,9 @@ function scrollFixedHeader() {
     <div class="fixed_header">
       <HeaderBar></HeaderBar>
     </div>
-    <main class="app_main"></main>
+    <main class="app_main">
+      <RouterView :key="route.fullPath"/>
+    </main>
     <Footer/>
     <LoginDialog/>
   </el-container>
@@ -64,5 +69,6 @@ function scrollFixedHeader() {
 .app_main {
   flex: 1;
   min-height: 0;
+  margin-top: 65px;
 }
 </style>
