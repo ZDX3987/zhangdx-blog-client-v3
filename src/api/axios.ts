@@ -9,10 +9,10 @@ const service = axios.create({
 })
 
 // 请求计数器
-let requestNum = 0;
+let requestNum: number = 0;
 let notification: any = null;
 service.interceptors.request.use(request => {
-    const token = getAuthorization()
+    const token: string | null = getAuthorization()
     token && (request.headers.Authorization = token)
     requestNum++
     return request
@@ -21,15 +21,15 @@ service.interceptors.request.use(request => {
         return Promise.reject(error);
 })
 
-service.interceptors.response.use(response => {
+service.interceptors.response.use((response: AxiosResponse<ApiResponse<any>>) => {
     requestNum--;
     let data: ApiResponse<any> = response.data;
     processCommonResponseCode(data)
     storageToken(response)
     if (data.code !== 200) {
-        return Promise.reject(data.msg)
+        return Promise.reject(data)
     }
-    return data
+    return response
 }, error => {
     if (notification && requestNum <= 0) {
         // notification.closeAll();

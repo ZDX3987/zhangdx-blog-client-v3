@@ -1,9 +1,10 @@
 import axios, {type ApiResponse} from './axios.ts'
 import type {MenuItem} from "../types/MenuItem.ts";
 import {getAuthorization} from "../utils/auth-storage.ts";
+import {genApiResponse} from "../utils/api-util.ts";
 
-export function getMenuList(): Promise<MenuItem[]> {
-    return axios.get<MenuItem[]>('/api/client/menu/list')
+export function getMenuList(): Promise<ApiResponse<MenuItem[]>> {
+    return genApiResponse(axios.get<ApiResponse<MenuItem[]>>('/api/client/menu/list'))
 }
 
 export function logout(): Promise<ApiResponse<void>> {

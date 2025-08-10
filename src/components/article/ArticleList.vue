@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import {onMounted, ref, watch} from "vue";
-import type {ArticleItem} from "../../types/ArticleItem.ts";
+import {ArticleItem} from "../../types/ArticleItem.ts";
 import ArticleListItem from "./ArticleListItem.vue";
 import ArticleListItemSkeleton from "../skeleton/ArticleListItemSkeleton.vue";
 import {getArticleByPage} from "../../api/articleApi.ts";
-import type {ResultPage} from "../../types/ResultPage.ts";
+import {ResultPage} from "../../types/ResultPage.ts";
 
 const articleList = ref<ArticleItem[]>([])
 const isLoading = ref(false)
@@ -38,7 +38,7 @@ function queryArticle(queryPage: number) {
   }
   getArticleByPage(pageSize, queryPage, 2, props.queryCateIds, props.queryType)
       .then(res => {
-        let resultPage: ResultPage<ArticleItem> = res.data;
+        let resultPage: ResultPage<ArticleItem> = ResultPage.build<ArticleItem>(res.data, ArticleItem)
         isEmpty.value = resultPage.isEmpty()
         if (isEmpty.value) {
           return
@@ -52,6 +52,7 @@ function queryArticle(queryPage: number) {
           articleList.value = resultPage.records
         }
         total.value = resultPage.total
+        isLoading.value = false
       })
 }
 
@@ -66,9 +67,11 @@ function loadMoreArticle() {
     <li v-for="(article, index) of articleList" :key="index">
       <ArticleListItem :article-item="article"/>
     </li>
-    <li v-if="isLoading" v-for="index of skeletonSize" :key="index">
-      <ArticleListItemSkeleton/>
-    </li>
+    <ul v-if="isLoading">
+      <li v-for="index of skeletonSize" :key="index">
+        <ArticleListItemSkeleton/>
+      </li>
+    </ul>
     <li v-if="pageDisabled">
       <div class="load_more">
         <a v-if="!listEnd" @click="loadMoreArticle">点击加载更多</a>

@@ -1,6 +1,7 @@
 import axios, {type ApiResponse} from "./axios.ts";
 import type {ArticleItem} from "../types/ArticleItem.ts";
 import {ResultPage} from "../types/ResultPage.ts";
+import {genApiResponse} from "../utils/api-util.ts";
 
 const url = '/api/client/article';
 
@@ -14,5 +15,5 @@ export function getArticleByPage(pageSize: number, queryPage: number, sort: numb
         status: [],
         authorId: null
     }
-    return axios.get(url + '/articles', {params: formData})
+    return genApiResponse(axios.get<ApiResponse<ResultPage<ArticleItem>>>(url + '/articles', {params: formData}))
 }

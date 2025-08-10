@@ -1,7 +1,7 @@
 export class ArticleItem {
     id: number;
     articleId: string;
-    tittle: string;
+    title: string;
     text: string;
     digest: string;
     publishDate: Date;

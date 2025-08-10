@@ -10,6 +10,7 @@ import {useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
 import {removeAuthorization} from "../../utils/auth-storage.ts";
 import SearchBar from "./SearchBar.vue";
+import {genData} from "../../utils/api-util.ts";
 
 const headerLayout = {
   leftBar: {
@@ -50,7 +51,7 @@ const showSearchBar = computed(() => {
 const menuList = ref<MenuItem[]>([])
 
 onMounted(async () => {
-  menuList.value = await getMenuList()
+  menuList.value = await genData<MenuItem[]>(getMenuList())
 })
 
 function showMobileMenu() {

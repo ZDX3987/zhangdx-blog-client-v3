@@ -13,7 +13,7 @@ const selectType = ref(1)
 <div class="list_tab_content">
   <el-row>
     <el-col class="tab_item" :sm="3" :xs="4" v-for="tab of tabList" :key="tab.type">
-      <el-link :underline="false" :class="selectType === tab.type ? 'active_tab' : ''">{{tab.text}}</el-link>
+      <el-link underline="never" :class="selectType === tab.type ? 'active_tab' : ''">{{tab.text}}</el-link>
     </el-col>
   </el-row>
 </div>
