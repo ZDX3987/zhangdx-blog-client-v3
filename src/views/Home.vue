@@ -3,6 +3,7 @@
 import ArticleListTab from "../components/home/ArticleListTab.vue";
 import ArticleList from "../components/article/ArticleList.vue";
 import {ref} from "vue";
+import CateCloud from "../components/home/CateCloud.vue";
 
 const homeColSpan = {
   left: {
@@ -13,9 +14,9 @@ const homeColSpan = {
     xs: {span: 22, offset: 1}
   },
   right: {
-    xl: 4,
-    lg: 5,
-    md: 6,
+    xl: {span: 4, offset: 0},
+    lg: {span: 5, offset: 0},
+    md: {span: 6, offset: 0},
     sm: {span: 22, offset: 1},
     xs: {span: 22, offset: 1}
   }
@@ -35,7 +36,9 @@ function changeArticleListTab(type: number) {
       </div>
     </el-col>
     <el-col :xl="homeColSpan.right.xl" :lg="homeColSpan.right.lg" :md="homeColSpan.right.md" :sm="homeColSpan.right.sm" :xs="homeColSpan.right.xs">
-
+      <div class="home_right_content">
+        <CateCloud/>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -43,5 +46,10 @@ function changeArticleListTab(type: number) {
 <style scoped>
 .home_article_content {
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+.home_right_content {
+  margin-top: 20px;
+  margin-left: 20px;
 }
 </style>
