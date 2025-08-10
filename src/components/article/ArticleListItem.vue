@@ -1,27 +1,26 @@
 <script setup lang="ts">
 import {ArticleItem} from "../../types/ArticleItem.ts";
+import {dateFormat} from "../../utils/moment-date.ts";
 
 const props = defineProps({
   articleItem: {type: ArticleItem, default: null}
 })
+
 </script>
 
 <template>
   <el-row>
     <el-col class="article_item_left" v-if="articleItem.hasCoverImg()" :sm="8">
       <RouterLink :to="{name: 'ArticleDetail', params: { articleId: articleItem.articleId }}">
-        <div class="cover-img">
-          <!--        <img v-lazy="articleItem.coverImg"/>-->
-          <el-image :key="articleItem.coverImg" :src="articleItem.coverImg" lazy>
-            <template #error>
-              <img src="/public/images/notfound.gif"/>
-            </template>
-          </el-image>
-        </div>
+        <el-image class="cover_img" :key="articleItem.coverImg" :src="articleItem.coverImg" lazy>
+          <template #error>
+            <img src="/public/images/notfound.gif" alt="ERROR"/>
+          </template>
+        </el-image>
       </RouterLink>
     </el-col>
-    <el-col class="article_item_right" :sm="articleItem.hasCoverImg() ? 16 : 24">
-      <h2>
+    <el-col class="article_item_right" :class="articleItem.hasCoverImg() ? 'article_item_right_pl' : ''" :sm="articleItem.hasCoverImg() ? 16 : 24">
+      <h2 class="item_title_h2">
         <RouterLink class="item_title" :to="{name: 'ArticleDetail', params: { articleId: articleItem.articleId }}"
                     v-html="articleItem.title"/>
       </h2>
@@ -29,11 +28,9 @@ const props = defineProps({
       <div class="item_tags">
         <p class="item_type" v-if="articleItem.articleType">【{{ articleItem.articleType }}】</p>
         <span v-for="(tag, index) of articleItem.categories" :key="tag.id">
-                  <el-divider v-if="index !== 0" direction="vertical"></el-divider>
-          <!--                  <RouterLink :to="{name: 'CateList', params: {id: tag.id}}">-->
-          <!--                    {{ tag.cateName }}-->
-          <!--                  </RouterLink>-->
-                </span>
+          <el-divider v-if="index !== 0" direction="vertical"></el-divider>
+          <RouterLink :to="{name: 'CateList', params: {id: tag.id}}">{{ tag.cateName }}</RouterLink>
+        </span>
       </div>
       <el-row class="item_info">
         <el-col :sm="14" :xs="12">
@@ -45,10 +42,10 @@ const props = defineProps({
             </span>
           <span class="item_date">
               <span class="iconfont iconriqi" aria-hidden="true"></span>
-            <!--              <span>&nbsp;{{ articleItem.publishDate | dateFormat("yyyy-MM-DD") }}</span>-->
+              <span>&nbsp;{{ dateFormat(articleItem.publishDate, "yyyy-MM-DD") }}</span>
             </span>
         </el-col>
-        <el-col :sm="10" :xs="12">
+        <el-col class="item_info_right" :sm="10" :xs="12">
             <span>
               <i class="iconfont iconchakan" aria-hidden="true"/>&nbsp;{{ articleItem.readCount }}
             </span>
@@ -66,10 +63,11 @@ const props = defineProps({
 
 <style scoped>
 .article_item_left {
-
 }
-
-.cover-img {
+.article_item_right_pl {
+  padding-left: 20px;
+}
+.cover_img {
   width: 100%;
   height: 150px;
   transition: all 0.5s;
@@ -78,22 +76,20 @@ const props = defineProps({
   margin-bottom: 8px;
 }
 
-.cover-img img {
+.cover_img img {
   width: 100%;
   height: 150px;
   transition: all 0.5s;
   object-fit: cover;
 }
 
-.cover-img >>> img:hover {
+.cover_img >>> img:hover {
   opacity: 0.8;
   transform: scale(1.2);
 }
-
-.article_item_right {
-  padding-left: 2%;
+.item_title_h2 {
+  margin: 0;
 }
-
 .item_title {
   display: block;
   text-align: left;
@@ -158,6 +154,10 @@ const props = defineProps({
   overflow: hidden;
   height: 20px;
   line-height: 20px;
+  margin-right: 5px;
+}
+.item_info_right {
+  text-align: right;
 }
 
 /*搜索结果关键字高亮*/

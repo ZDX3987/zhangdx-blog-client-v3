@@ -32,6 +32,7 @@ const route = useRoute()
       <RouterView :key="route.fullPath"/>
     </main>
     <Footer/>
+    <el-backtop/>
     <LoginDialog/>
   </el-container>
 </template>

@@ -13,7 +13,15 @@ const routes = [
         name: 'ArticleDetail',
         component: () => import('../views/ArticleDetail.vue'),
         meta: {title: '文章详情'}
-    }
+    },
+    {
+        path: '/cate/:id.html',
+        name: 'CateList',
+        component: () => import('../views/CateList.vue'),
+        meta: {
+            title: '分类标签'
+        }
+    },
 ]
 
 const index = createRouter({
