@@ -7,13 +7,18 @@ const tabList = [
   {text: '推荐文章', orderBy: '', type: 2}
 ]
 const selectType = ref(1)
+const emit = defineEmits(['select-tab'])
+function selectTab(type: number) {
+  selectType.value = type
+  emit('select-tab', type)
+}
 </script>
 
 <template>
 <div class="list_tab_content">
   <el-row>
-    <el-col class="tab_item" :sm="3" :xs="4" v-for="tab of tabList" :key="tab.type">
-      <el-link underline="never" :class="selectType === tab.type ? 'active_tab' : ''">{{tab.text}}</el-link>
+    <el-col class="tab_item" :xl="2" :sm="3" :xs="4" v-for="tab of tabList" :key="tab.type">
+      <el-link underline="never" :class="selectType === tab.type ? 'active_tab' : ''" @click="selectTab(tab.type)">{{tab.text}}</el-link>
     </el-col>
   </el-row>
 </div>
@@ -30,6 +35,6 @@ const selectType = ref(1)
   color: var(--mainThemeColor) !important;
 }
 .tab_item {
-  margin: 0 30px;
+  margin: 0 20px;
 }
 </style>

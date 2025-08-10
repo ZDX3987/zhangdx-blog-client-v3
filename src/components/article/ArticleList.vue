@@ -67,7 +67,7 @@ function loadMoreArticle() {
     <li v-for="(article, index) of articleList" :key="index">
       <ArticleListItem :article-item="article"/>
     </li>
-    <ul v-if="isLoading">
+    <ul class="article_list_ul" v-if="isLoading">
       <li v-for="index of skeletonSize" :key="index">
         <ArticleListItemSkeleton/>
       </li>

@@ -2,6 +2,7 @@
 
 import ArticleListTab from "../components/home/ArticleListTab.vue";
 import ArticleList from "../components/article/ArticleList.vue";
+import {ref} from "vue";
 
 const homeColSpan = {
   left: {
@@ -19,14 +20,18 @@ const homeColSpan = {
     xs: {span: 22, offset: 1}
   }
 }
+const articleQueryType = ref(1)
+function changeArticleListTab(type: number) {
+  articleQueryType.value = type
+}
 </script>
 
 <template>
   <el-row>
     <el-col :xl="homeColSpan.left.xl" :lg="homeColSpan.left.lg" :md="homeColSpan.left.md" :sm="homeColSpan.left.sm" :xs="homeColSpan.left.xs">
       <div class="home_article_content">
-        <ArticleListTab/>
-        <ArticleList/>
+        <ArticleListTab @select-tab="changeArticleListTab"/>
+        <ArticleList :query-type="articleQueryType"/>
       </div>
     </el-col>
     <el-col :xl="homeColSpan.right.xl" :lg="homeColSpan.right.lg" :md="homeColSpan.right.md" :sm="homeColSpan.right.sm" :xs="homeColSpan.right.xs">
