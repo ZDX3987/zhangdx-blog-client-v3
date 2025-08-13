@@ -40,6 +40,14 @@ const routes = [
         ]
 
     },
+    {
+        path: '/friendship-link',
+        name: 'FriendshipLink',
+        component: () => import('../views/FriendshipLink.vue'),
+        meta: {
+            title: '友情链接'
+        }
+    }
 
 ]
 

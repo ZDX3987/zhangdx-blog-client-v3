@@ -5,6 +5,7 @@ import ArticleList from "../components/article/ArticleList.vue";
 import {ref} from "vue";
 import CateCloud from "../components/home/CateCloud.vue";
 import TopicCard from "../components/home/TopicSide.vue";
+import FriendshipLinkSide from "../components/home/FriendshipLinkSide.vue";
 
 const homeColSpan = {
   left: {
@@ -40,6 +41,7 @@ function changeArticleListTab(type: number) {
       <div class="home_right_content">
         <CateCloud/>
         <TopicCard/>
+        <FriendshipLinkSide/>
       </div>
     </el-col>
   </el-row>

@@ -79,7 +79,7 @@ function listener(event: MouseEvent) {//响应鼠标移动
 <template>
 <div class="cate_cloud_content">
   <div class="cate_cloud_title">
-    <span><i class="fa fa-tags"></i>&nbsp;标签云</span>
+    <span><i class="iconfont iconbiaoqian"></i>&nbsp;标签云</span>
     <el-link underline="never">共{{cateCloudList.length}}个</el-link>
   </div>
   <div class="cate_cloud_svg">

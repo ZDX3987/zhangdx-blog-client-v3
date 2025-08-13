@@ -18,7 +18,7 @@ onMounted(() => {
 <template>
   <div class="topic_card_content">
     <div class="topic_card_title">
-      <span><i class="fa fa-tags"></i>&nbsp;最新专题</span>
+      <span><i class="iconfont iconzhuanlan1"></i>&nbsp;最新专题</span>
       <RouterLink :to="{name: 'TopicList'}">
         <el-link underline="never">更多&gt;</el-link>
       </RouterLink>
