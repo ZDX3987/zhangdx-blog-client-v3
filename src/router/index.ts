@@ -21,15 +21,26 @@ const routes = [
         meta: {
             title: '分类标签'
         }
-    },
-    {
-        path: '/topic/:id.html',
-        name: 'TopicDetail',
-        component: () => import('../views/TopicDetail.vue'),
+    },{
+        path: '/topic',
+        name: 'TopicList',
+        component: () => import('../views/TopicList.vue'),
         meta: {
             title: '专题'
-        }
+        },
+        children: [
+            {
+                path: ':id.html',
+                name: 'TopicDetail',
+                component: () => import('../views/TopicDetail.vue'),
+                meta: {
+                    title: '专题详情'
+                }
+            },
+        ]
+
     },
+
 ]
 
 const index = createRouter({

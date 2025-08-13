@@ -3,12 +3,15 @@
 import {onMounted, ref} from "vue";
 import {dateFormat} from "../../utils/moment-date.ts";
 import {getSimpleTopic} from "../../api/topicApi.ts";
-import {genData} from "../../utils/api-util.ts";
+import {TopicItem} from "../../types/TopicItem.ts";
+import {ResultPage} from "../../types/ResultPage.ts";
 
-const topicList = ref([])
+const topicList = ref<TopicItem[]>([])
 
-onMounted(async () => {
-  topicList.value = await genData(getSimpleTopic(1, 5))
+onMounted(() => {
+  getSimpleTopic(1, 5).then(res => {
+    topicList.value = ResultPage.build(res.data, TopicItem).records
+  })
 })
 </script>
 
@@ -16,16 +19,18 @@ onMounted(async () => {
   <div class="topic_card_content">
     <div class="topic_card_title">
       <span><i class="fa fa-tags"></i>&nbsp;最新专题</span>
-      <el-link underline="never">更多&gt;</el-link>
+      <RouterLink :to="{name: 'TopicList'}">
+        <el-link underline="never">更多&gt;</el-link>
+      </RouterLink>
     </div>
     <div class="topic_card_list">
       <ul>
         <li v-for="topic of topicList" :key="topic.id">
-          <RouterLink :to="{name: 'TopicDetail', params: { id: topic.id } }">
+          <RouterLink class="topic_name" :to="{name: 'TopicDetail', params: { id: topic.id } }">
             {{topic.title}}
           </RouterLink>
-          <span>
-            {{dateFormat(topic.updateDate, 'yyyy-MM-dd')}}
+          <span class="topic_date">
+            {{ dateFormat(topic.updateDate, 'yyyy-MM-DD') }}
           </span>
         </li>
       </ul>
@@ -51,29 +56,43 @@ onMounted(async () => {
 }
 
 .topic_card_list {
-  padding: 0 20px;
-  min-height: 300px;
+  min-height: 250px;
   text-align: left;
+}
+.topic_card_list ul {
+  padding-left: 0;
+  margin: 0;
 }
 .topic_card_list li {
   list-style: none;
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid var(--bodyBgColor);
+  padding: 0 20px;
 }
 
-.topic_card_list a {
+.topic_name {
   color: var(--aColor);
   text-decoration: none;
   transition: all 0.5s;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
   width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
-.topic_card_list a:hover {
+.topic_name:hover {
   color: var(--mainThemeColor);
 }
-
-.topic_card_list span {
+.topic_date {
   color: var(--subFontColor);
   font-size: 14px;
   width: 40%;
+  float: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
 }
 </style>

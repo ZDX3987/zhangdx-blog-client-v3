@@ -4,7 +4,7 @@ import ArticleListTab from "../components/home/ArticleListTab.vue";
 import ArticleList from "../components/article/ArticleList.vue";
 import {ref} from "vue";
 import CateCloud from "../components/home/CateCloud.vue";
-import TopicCard from "../components/home/TopicCard.vue";
+import TopicCard from "../components/home/TopicSide.vue";
 
 const homeColSpan = {
   left: {
