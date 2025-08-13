@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import Bg from "./components/layout/Bg.vue";
-import {onMounted, onUnmounted} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import LoginDialog from "./components/dialog/LoginDialog.vue";
 import Footer from "./components/layout/Footer.vue";
 import {useRoute} from "vue-router";
@@ -14,8 +14,13 @@ onUnmounted(() => {
   window.removeEventListener('scroll', scrollFixedHeader)
 })
 
+const fixHeaderClassName = ref('')
+let lastScrollHeight = 0
+
 function scrollFixedHeader() {
-  const headerEl = document.getElementsByClassName('fixed_header')
+  let scrollHeight = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
+  fixHeaderClassName.value = scrollHeight < lastScrollHeight ? 'fixed_header_down' : 'fixed_header_up'
+  lastScrollHeight = scrollHeight
 }
 
 const route = useRoute()
@@ -25,7 +30,7 @@ const route = useRoute()
 <template>
   <el-container class="app_container">
     <Bg/>
-    <div class="fixed_header">
+    <div id="app_header" class="fixed_header" :class="fixHeaderClassName">
       <HeaderBar></HeaderBar>
     </div>
     <main class="app_main">
@@ -66,6 +71,12 @@ const route = useRoute()
   z-index: 20;
   top: 0;
   transition: all 0.5s;
+}
+.fixed_header_up {
+  transform: translate(0, -160px);
+}
+.fixed_header_down {
+  transform: translate(0, 0);
 }
 .app_main {
   flex: 1;
