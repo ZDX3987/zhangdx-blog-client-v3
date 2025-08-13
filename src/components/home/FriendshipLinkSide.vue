@@ -17,7 +17,7 @@ onMounted(async () => {
   <div class="friendship_link_header">
     <span><i class="iconfont iconlianjie"></i>&nbsp;友链列表</span>
     <RouterLink :to="{name: 'FriendshipLink'}">
-      <el-link :underline="false">更多&gt;</el-link>
+      <el-link underline="never">更多&gt;</el-link>
     </RouterLink>
   </div>
   <div class="friendship_link_body">

@@ -15,6 +15,14 @@ const routes = [
         meta: {title: '文章详情'}
     },
     {
+        path: '/classify',
+        name: 'Classify',
+        component: () => import('../views/Classify.vue'),
+        meta: {
+            title: '文章分类'
+        }
+    },
+    {
         path: '/cate/:id.html',
         name: 'CateList',
         component: () => import('../views/CateList.vue'),
@@ -41,13 +49,34 @@ const routes = [
 
     },
     {
+        path: '/archives',
+        name: 'Archives',
+        component: () => import('../views/Archives.vue'),
+        meta: {
+            title: '归档'
+        }
+    },
+    {
+        path: '/updatelog',
+        name: 'UpdateLog',
+        component: () => import('../views/UpdateLog.vue'),
+        meta: {
+            title: '更新日志'
+        }
+    },
+    {
         path: '/friendship-link',
         name: 'FriendshipLink',
         component: () => import('../views/FriendshipLink.vue'),
         meta: {
             title: '友情链接'
         }
-    }
+    },
+    {
+        path: '/content/**',
+        name: 'BlogContent',
+        component: () => import('../views/BlogContent.vue')
+    },
 
 ]
 
