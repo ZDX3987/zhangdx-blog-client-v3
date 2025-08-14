@@ -13,6 +13,7 @@ export class ArticleItem {
     commentCount: number;
     author: Author;
     categories: Category[];
+    extraData: ArticleExtraData
 
     hasCoverImg(): boolean {
         return this.coverImg != null && this.coverImg != '';
@@ -35,4 +36,14 @@ class Author {
 class Category {
     id: number;
     cateName: string;
+}
+
+class ArticleExtraData {
+    previewConfig: ArticleExtraPreview
+}
+class ArticleExtraPreview {
+    vditorPreview: VditorPreview
+}
+class VditorPreview {
+    hlStyle: string;
 }

@@ -8,6 +8,7 @@ import {dateFormat} from "../utils/moment-date.ts";
 import {toClass} from "../utils/to-class.ts";
 import VditorPreview from 'vditor/dist/method.min'
 import "vditor/dist/index.css";
+import ArticleDirectory from "../components/article/ArticleDirectory.vue";
 
 const article = ref<ArticleItem>(ArticleItem.emptyArticleItem())
 const isRender = ref(false)
@@ -17,7 +18,7 @@ const articleRender = useTemplateRef('articleTextRender')
 const route = useRoute()
 onMounted(() => {
   VditorPreview.mermaidRender(document)
-  let articleId: string | string[] = route.params.articleId
+  let articleId: string = route.params.articleId
   getArticleById(articleId).then(res => {
     article.value = toClass(res.data, ArticleItem)
     renderArticle(article.value, () => isRender.value = true)
@@ -59,6 +60,7 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
 <template>
 <div class="article_detail_wrapper">
   <el-row type="flex" justify="center">
+    <el-col :xl="1" :md="2" class="hidden-sm-and-down"></el-col>
     <el-col :lg="12" :md="15" :xs="22" :sm="22">
       <div class="article_detail_content">
         <h2 class="article_title">{{article.title}}</h2>
@@ -85,6 +87,9 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
         </div>
         <el-divider/>
       </div>
+    </el-col>
+    <el-col :md="5" class="hidden-sm-and-down catalog_col_wrapper">
+      <ArticleDirectory v-if="isRender" container-ref="article_text"/>
     </el-col>
   </el-row>
 </div>
@@ -118,5 +123,8 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
   font-size: 14px;
   line-height: 40px;
   height: 40px;
+}
+.catalog_col_wrapper {
+  padding-left: 20px;
 }
 </style>
