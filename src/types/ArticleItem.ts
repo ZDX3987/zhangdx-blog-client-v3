@@ -4,6 +4,7 @@ export class ArticleItem {
     title: string;
     text: string;
     digest: string;
+    source: number;
     publishDate: Date;
     coverImg: string;
     articleType: string;
@@ -16,7 +17,15 @@ export class ArticleItem {
     hasCoverImg(): boolean {
         return this.coverImg != null && this.coverImg != '';
     }
+
+    static emptyArticleItem(): ArticleItem {
+        let articleItem = new ArticleItem()
+        articleItem.author = new Author()
+        articleItem.categories = []
+        return articleItem
+    }
 }
+
 
 class Author {
     nickname: string;

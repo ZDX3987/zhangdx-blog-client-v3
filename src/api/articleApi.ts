@@ -17,3 +17,7 @@ export function getArticleByPage(pageSize: number, queryPage: number, sort: numb
     }
     return genApiResponse(axios.get<ApiResponse<ResultPage<ArticleItem>>>(url + '/articles', {params: formData}))
 }
+
+export function getArticleById(articleId: string): Promise<ApiResponse<ArticleItem>> {
+    return genApiResponse(axios.get(url + '/article/' + articleId))
+}

@@ -6,6 +6,9 @@ export function fromNow(date: Date) {
     return moment(date).fromNow()
 }
 
-export function dateFormat (date: Date, pattern = 'yyyy-MM-DD HH:mm:ss') {
+export function dateFormat (date: Date | undefined, pattern = 'yyyy-MM-DD HH:mm:ss') {
+    if (date === undefined) {
+        return ''
+    }
     return moment(date).format(pattern)
 }
