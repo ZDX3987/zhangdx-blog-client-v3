@@ -6,6 +6,7 @@ import ArticleListItem from "./ArticleListItem.vue";
 import ArticleListItemSkeleton from "../skeleton/ArticleListItemSkeleton.vue";
 import {getArticleByPage} from "../../api/articleApi.ts";
 import {ResultPage} from "../../types/ResultPage.ts";
+import PageList from "../common/PageList.vue";
 
 const articleList = ref<ArticleItem[]>([])
 const isLoading = ref(false)
@@ -78,7 +79,9 @@ function loadMoreArticle() {
         <p v-if="listEnd">已经到底了...</p>
       </div>
     </li>
-    <li v-else></li>
+    <li v-else>
+      <PageList :total="total" :current-page="currentPage" :page-size="pageSize" @current-change="queryArticle"/>
+    </li>
   </ul>
 </div>
 </template>

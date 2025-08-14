@@ -20,7 +20,7 @@ function setQueryCateId(cateIds: number[]) {
   <el-row class="divider_margin"></el-row>
   <el-row type="flex" justify="center">
     <el-col :lg="12" :md="20" :xs="22" :sm="22">
-      <ArticleList :query-cate-ids="queryCateIds"/>
+      <ArticleList :query-cate-ids="queryCateIds" :page-disabled="false"/>
     </el-col>
   </el-row>
 </div>

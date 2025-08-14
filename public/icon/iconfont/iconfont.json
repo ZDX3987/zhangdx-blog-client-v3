@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24784021",
+      "name": "分页-翻页",
+      "font_class": "page-right",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "39918766",
+      "name": "分页-翻页-copy",
+      "font_class": "left",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "6447211",
+      "name": "分页向左",
+      "font_class": "icon_paging_left",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "6447212",
+      "name": "分页向右",
+      "font_class": "icon_paging_right",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "17411757",
+      "name": "省略",
+      "font_class": "shenglve",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "77403",
       "name": "链接",
       "font_class": "lianjie",
