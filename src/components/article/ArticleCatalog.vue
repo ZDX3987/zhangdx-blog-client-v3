@@ -16,6 +16,8 @@ const innerAnchorTag = computed(() => {
 const activeAnchorElId = ref<string>('')
 let anchorOffsetTopMap: Map<number, string> = new Map()
 
+const catalogMovePosition = ref<number>(1)
+let catalogTotalHeight: number = 0
 
 onMounted(() => {
   parseAnchorEl();
@@ -75,8 +77,12 @@ function catalogHref(elId: string) {
 
 const catalogListRef = ref(null)
 function handleCatalogAutoListScroll(event) {
+  handleCatalogInnerScroll(event)
+  handleCatalogListPosition()
+}
+
+function handleCatalogInnerScroll(event) {
   const sideCatalogRef = catalogListRef
-  const scrollTop = window.scrollY || document.documentElement.scrollTop
   if (sideCatalogRef.value === null || event.target === sideCatalogRef.value) {
     return;
   }
@@ -90,24 +96,33 @@ function handleCatalogAutoListScroll(event) {
     top: offsetTop > 300 ? offsetTop : -offsetTop,
     behavior: 'smooth'
   });
+}
 
+function handleCatalogListPosition() {
   let containerEl = containerElRef.value
   if (containerEl === null) {
     return;
   }
-  let catalogWrapperEl: HTMLElement = document.getElementsByClassName('catalog_wrapper')[0]
-  let boundingClientRect = containerEl.getBoundingClientRect();
-  if (boundingClientRect.height + boundingClientRect.top <= catalogWrapperEl.offsetHeight) {
-    catalogWrapperEl.style = 'position:absolute;top:' + (boundingClientRect.height - containerEl.offsetTop) + 'px'
-  } else {
-    catalogWrapperEl.style = 'position:fixed;'
+  const scrollTop = window.scrollY
+  let catalogWrapperEl: Element = document.getElementsByClassName('catalog_wrapper')[0]
+  let containerElTop = scrollTop + containerEl.getBoundingClientRect().top
+  let catalogClientRect = catalogWrapperEl.getBoundingClientRect();
+  if (catalogTotalHeight === 0) {
+    catalogTotalHeight = catalogClientRect.height + catalogClientRect.top;
   }
-  console.log()
+  if (containerEl.offsetHeight - (scrollTop - containerElTop) < catalogTotalHeight) {
+    let top = containerEl.offsetHeight + containerEl.offsetTop - catalogClientRect.height
+    catalogMovePosition.value = 2
+    catalogWrapperEl.setAttribute('style', 'top: ' + top + 'px')
+  } else {
+    catalogMovePosition.value = 1
+    catalogWrapperEl.removeAttribute('style')
+  }
 }
 </script>
 
 <template>
-<div class="catalog_wrapper">
+<div class="catalog_wrapper" :class="catalogMovePosition === 1 ? 'catalog_wrapper_fixed' : 'catalog_wrapper_absolute'">
   <div class="catalog_content">
     <div class="catalog_header">
       <span>目录</span>
@@ -127,8 +142,11 @@ function handleCatalogAutoListScroll(event) {
 </template>
 
 <style scoped>
-.catalog_wrapper {
+.catalog_wrapper_fixed {
   position: fixed;
+}
+.catalog_wrapper_absolute {
+  position: absolute;
 }
 .catalog_content {
   background-color: var(--bgColor);
