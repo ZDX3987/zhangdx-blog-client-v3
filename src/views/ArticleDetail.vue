@@ -88,7 +88,6 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
         </div>
         <el-divider/>
       </div>
-      <div style="height:1000px; width:100%"></div>
     </el-col>
     <el-col :md="5" class="hidden-sm-and-down catalog_col_wrapper">
       <ArticleCatalog v-if="isRender" container-ref="article_text"/>

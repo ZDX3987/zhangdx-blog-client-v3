@@ -36,7 +36,7 @@ function calAnchorScrollHeight() {
   const scrollDistance = window.scrollY
       || document.documentElement.scrollTop
       || document.body.scrollTop
-  let currentKey
+  let currentKey: number
   for (let key of anchorOffsetTopMap.keys()) {
     if (scrollDistance >= key) {
       currentKey = key
@@ -44,7 +44,10 @@ function calAnchorScrollHeight() {
       break
     }
   }
-  activeAnchorElId.value = anchorOffsetTopMap.get(currentKey)
+  let value = anchorOffsetTopMap.get(currentKey);
+  if (value !== undefined) {
+    activeAnchorElId.value = value
+  }
 }
 function parseAnchorEl() {
   let containerEl = document.getElementById(props.containerRef)
@@ -129,7 +132,7 @@ function handleCatalogListPosition() {
     </div>
     <div class="catalog_list" ref="catalogListRef">
       <ul>
-        <li v-for="(value, index) in catalogMap" @click="catalogHref(value[0])">
+        <li v-for="(value) in catalogMap" @click="catalogHref(value[0])">
           <span :class="activeAnchorElId === value[0] ? 'active_item' : ''"
                 :style="{paddingLeft:  value[1].offset + 'px', fontWeight: value[1].fontWeight}">
             <i v-if="activeAnchorElId === value[0]" class="iconfont iconchichi"></i>
