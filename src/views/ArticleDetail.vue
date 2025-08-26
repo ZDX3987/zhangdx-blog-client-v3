@@ -8,7 +8,7 @@ import {dateFormat} from "../utils/moment-date.ts";
 import {toClass} from "../utils/to-class.ts";
 import VditorPreview from 'vditor/dist/method.min'
 import "vditor/dist/index.css";
-import ArticleDirectory from "../components/article/ArticleDirectory.vue";
+import ArticleCatalog from "../components/article/ArticleCatalog.vue";
 
 const article = ref<ArticleItem>(ArticleItem.emptyArticleItem())
 const isRender = ref(false)
@@ -75,7 +75,8 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
           </el-col>
           <el-col v-if="article.categories.length !==0" :xs="20" :sm="10">
             <i class="iconfont iconbiaoqian"></i>
-            <span v-for="(tag, index) of article.categories" :key="tag.id">{{ index != 0 ? '&nbsp/&nbsp' : '' }}
+            <span class="article_cate_item" v-for="(tag, index) of article.categories"
+                  :key="tag.id">{{ index != 0 ? '&nbsp/&nbsp' : '' }}
                 <RouterLink :to="{name: 'CateList', params: {id: tag.id}}">{{ tag.cateName }}</RouterLink>
             </span>
           </el-col>
@@ -87,9 +88,10 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
         </div>
         <el-divider/>
       </div>
+      <div style="height:1000px; width:100%"></div>
     </el-col>
     <el-col :md="5" class="hidden-sm-and-down catalog_col_wrapper">
-      <ArticleDirectory v-if="isRender" container-ref="article_text"/>
+      <ArticleCatalog v-if="isRender" container-ref="article_text"/>
     </el-col>
   </el-row>
 </div>
@@ -126,5 +128,12 @@ function getArticleExtraCodeTheme(article: ArticleItem) {
 }
 .catalog_col_wrapper {
   padding-left: 20px;
+}
+.article_cate_item a {
+  text-decoration: none;
+  color: #999;
+}
+.article_cate_item a:hover {
+  color: var(--mainThemeColor);
 }
 </style>

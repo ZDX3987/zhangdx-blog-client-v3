@@ -3,10 +3,6 @@ html,body {
     height: 100%;
     padding: 0;
 }
-a {
-    text-decoration: none;
-}
-
 * {
     outline: none !important;
 }
