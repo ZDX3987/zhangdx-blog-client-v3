@@ -25,3 +25,7 @@ export function getArticleById(articleId: string): Promise<ApiResponse<ArticleIt
 export function getPrevAndNextArticle(articleId: string): Promise<ApiResponse<ArticleItem[]>> {
     return genApiResponse(axios.get(url + '/prev-next-article/' + articleId))
 }
+
+export function getRelatedArticles(articleId: string): Promise<ApiResponse<ArticleItem[]>> {
+    return genApiResponse(axios.get(url + '/related-articles/' + articleId))
+}

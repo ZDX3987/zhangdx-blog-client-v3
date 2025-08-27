@@ -14,6 +14,7 @@ import {useMainStore} from "../stores/store.ts";
 import {praise, unPraise} from "../api/common.ts";
 import ArticleDirection from "../components/article/ArticleDirection.vue";
 import CommentReply from "../components/comment/CommentReply.vue";
+import RelatedArticles from "../components/article/RelatedArticles.vue";
 
 const route = useRoute()
 const articleId = ref<string>(route.params.articleId)
@@ -138,6 +139,7 @@ function praiseArticle() {
     <el-col :xl="1" :md="2" class="hidden-sm-and-down"></el-col>
     <el-col :lg="12" :md="15" :xs="22" :sm="22">
       <CommentReply :item-id="articleId" :comment-type="1"/>
+      <RelatedArticles :article-id="articleId"/>
     </el-col>
     <el-col :md="5" class="hidden-sm-and-down"></el-col>
   </el-row>
