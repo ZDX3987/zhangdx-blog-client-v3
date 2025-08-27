@@ -170,6 +170,7 @@ function handleCatalogListPosition() {
 .catalog_list {
   max-height: 500px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .catalog_list ul {
   padding: 0;
