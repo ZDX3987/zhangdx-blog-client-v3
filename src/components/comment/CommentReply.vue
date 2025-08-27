@@ -18,6 +18,7 @@ const authed = computed(() => {
 const props = defineProps({
   itemId: {type: String, default: ''},
   commentType: {type: Number, default: 0},
+  authorUserId: {type: Number, default: 0},
 })
 const commentList = ref<CommentItem[]>([])
 const currentCommentContent = ref<string>('')
@@ -70,6 +71,10 @@ function openReply(replyId: string) {
   }
   currentReplyId.value = replyId
 }
+
+function parseComment(type: number, commentId: number) {
+
+}
 </script>
 
 <template>
@@ -93,7 +98,7 @@ function openReply(replyId: string) {
               placement="bottom"
               width="360"
               trigger="click">
-<!--            <picker @select="selectEmoji"></picker>-->
+            <!--            <picker @select="selectEmoji"></picker>-->
             <a slot="reference" class="fa fa-smile-o comment_emoji_btn" title="添加表情"></a>
           </el-popover>
         </el-col>
@@ -112,7 +117,9 @@ function openReply(replyId: string) {
         </div>
         <div class="comment_item_right">
           <div>
-            <span class="comment_user_name">{{ commentItem.fromUser.nickname }}</span>
+            <span class="comment_user_name">{{ commentItem.fromUser.nickname }}
+                <el-tag v-if="authorUserId === commentItem.fromUser.id" class="ml-2" type="success" size="small">作者</el-tag>
+            </span>
             <span class="comment_date">{{ fromNow(commentItem.createDateTime) }}</span>
           </div>
           <div class="comment_text">
@@ -131,45 +138,48 @@ function openReply(replyId: string) {
               <i class="el-icon-delete" aria-hidden="true"/>&nbsp;删除
             </el-link>
           </div>
-          <reply-input v-if="currentReplyId === 'comment_' + commentItem.id" @reply-blur="replyBlur"
-                       @save-reply="saveReply($event, commentItem.id, commentItem.id, 1, currentAuthUserInfo?.userId, commentItem.fromUser.id)"/>
-          <div class="comment_reply_list p-3" v-if="commentItem.replyList.length > 0">
-            <div class="comment_reply_item d-flex my-2" v-for="(replyItem, index) in commentItem.replyList"
-                 :key="replyItem.id" v-if="index < maxShowReplyNum">
-              <div class="d-inline-block mr-3">
-                <el-avatar class="comment_reply_avatar" icon="el-icon-user-solid"
-                           :src="replyItem.fromUser.avatar"/>
+<!--          <reply-input v-if="currentReplyId === 'comment_' + commentItem.id" @reply-blur="replyBlur"-->
+<!--                       @save-reply="saveReply($event, commentItem.id, commentItem.id, 1, currentAuthUserInfo?.userId, commentItem.fromUser.id)"/>-->
+          <div class="comment_reply_list" v-if="commentItem.replyList.length > 0">
+            <div class="comment_reply_item" v-for="(replyItem, index) in commentItem.replyList"
+                 :key="replyItem.id">
+              <div class="comment_reply_item_avatar">
+                <el-avatar class="comment_reply_avatar" icon="el-icon-user-solid" :src="replyItem.fromUser.avatar"/>
               </div>
-              <div class="d-inline-block w-100">
+              <div class="comment_reply_item_right">
                 <div>
-                  <span class="comment_user_name">{{ replyItem.fromUser.nickname }}</span>
-                  <span class="comment_user_name"
-                        v-if="replyItem.replyType === 2">{{ '回复&nbsp;' + replyItem.toUser.nickname }}</span>
+                  <span class="comment_user_name">{{ replyItem.fromUser.nickname }}
+                    <el-tag v-if="authorUserId === commentItem.fromUser.id" class="ml-2" type="success" size="small">作者</el-tag>
+                  </span>
+                  <span class="comment_user_name" v-if="replyItem.replyType === 2">{{ '回复&nbsp;' + replyItem.toUser.nickname }}
+                    <el-tag v-if="authorUserId === commentItem.toUser.id" class="ml-2" type="success" size="small">作者</el-tag>
+                  </span>
                   <span class="float-right comment_date">{{ fromNow(replyItem.createDateTime) }}</span>
                 </div>
-                <div class="comment_text my-2">
+                <div class="comment_text">
                   {{ replyItem.content }}
                 </div>
-
                 <div>
-                  <el-link underline="never" @click.stop="parseComment(2,commentItem.id)" class="mr-2"><i class="iconfont iconzan" aria-hidden="true"/>&nbsp;点赞
+                  <el-link underline="never" @click.stop="parseComment(2,commentItem.id)" class="comment_item_btn"><i
+                      class="iconfont iconzan" aria-hidden="true"/>&nbsp;点赞
                   </el-link>
-                  <el-link underline="never" @click.stop="openReply('reply_' + replyItem.id)">
+                  <el-link underline="never" @click.stop="openReply('reply_' + replyItem.id)" class="comment_item_btn">
                     <i class="iconfont iconpinglun"
                        aria-hidden="true"/>&nbsp;{{ currentReplyId === 'reply_' + replyItem.id ? '取消' : '' }}回复
                   </el-link>
-                  <el-link v-if="replyItem.fromUser.id === currentAuthUserInfo?.userId" class="ml-2" underline="never"
+                  <el-link v-if="replyItem.fromUser.id === currentAuthUserInfo?.userId" underline="never"
                            @click.stop="deleteReply(replyItem.id)">
                     <i class="el-icon-delete" aria-hidden="true"/>
                     删除
                   </el-link>
                 </div>
-<!--                <reply-input ref="replyInput" v-if="currentReplyId === 'reply_' + replyItem.id" @reply-blur="replyBlur"-->
-<!--                             @save-reply="saveReply($event, commentItem.id, replyItem.id, 2, currentAuthUserInfo?.userId, replyItem.fromUser.id)"/>-->
+                <!--                <reply-input ref="replyInput" v-if="currentReplyId === 'reply_' + replyItem.id" @reply-blur="replyBlur"-->
+                <!--                             @save-reply="saveReply($event, commentItem.id, replyItem.id, 2, currentAuthUserInfo?.userId, replyItem.fromUser.id)"/>-->
               </div>
             </div>
             <el-link v-if="commentItem.replyList && commentItem.replyList.length > maxShowReplyNum" underline="never"
-                     class="ml-5 mt-2" @click="showMoreReply">查看更多回复<span class="el-icon-arrow-down"></span></el-link>
+                     class="ml-5 mt-2" @click="showMoreReply">查看更多回复<span class="el-icon-arrow-down"></span>
+            </el-link>
           </div>
         </div>
       </div>
@@ -225,46 +235,57 @@ function openReply(replyId: string) {
 .comment_emoji_btn:hover {
   color: var(--mainThemeColor);
 }
+
 .comment_content_body {
   padding: 30px;
 }
+
 .comment_btn {
   display: inline-block;
   float: right;
 }
+
 .comment_item_avatar {
   display: inline-block;
   margin-right: 10px;
 }
+
 .comment_reply_avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
+
 .comment_list {
   padding: 10px 30px 10px 30px;
 }
+
 .comment_list_title {
   font-weight: 600;
   color: var(--fontColor);
   margin-top: 20px;
 }
+
 .comment_item {
   display: flex;
   margin: 30px 0;
 }
+
 .comment_item_right {
   display: inline-block;
   width: 100%;
 }
+
 .comment_text {
   color: var(--fontColor);
   font-size: 14px;
   margin: 10px 0;
 }
+
 .comment_item_btn {
   margin-right: 10px;
 }
+
 .comment_user_name {
   color: var(--subFontColor);
   font-size: 15px;
@@ -277,9 +298,20 @@ function openReply(replyId: string) {
 }
 
 .comment_reply_list {
-  //background-color: var(--bodyBgColor);
+  padding: 20px;
 }
-
+.comment_reply_item {
+  display: flex;
+  margin: 10px 0 10px 0;
+}
+.comment_reply_item_avatar {
+  display: inline-block;
+  margin-right: 10px;
+}
+.comment_reply_item_right {
+  display: inline-block;
+  width: 100%;
+}
 .comment_load_btn {
   height: 50px;
   line-height: 50px;

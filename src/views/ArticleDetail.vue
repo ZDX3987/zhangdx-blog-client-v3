@@ -140,7 +140,7 @@ function praiseArticle() {
   <el-row type="flex" justify="center">
     <el-col :xl="1" :md="2" class="hidden-sm-and-down"></el-col>
     <el-col :lg="12" :md="15" :xs="22" :sm="22">
-      <CommentReply :item-id="articleId" :comment-type="1"/>
+      <CommentReply :item-id="articleId" :comment-type="1" :author-user-id="article.author.id"/>
       <RelatedArticles :article-id="articleId"/>
     </el-col>
     <el-col :md="5" class="hidden-sm-and-down"></el-col>

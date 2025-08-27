@@ -30,6 +30,7 @@ export class ArticleItem {
 
 
 class Author {
+    id: number;
     nickname: string;
     avatar: string;
 }
