@@ -132,7 +132,9 @@ function praiseArticle() {
       <ArticleDirection :article-id="articleId" />
     </el-col>
     <el-col :md="5" class="hidden-sm-and-down catalog_col_wrapper">
-      <ArticleCatalog v-if="isRender" container-ref="article_text"/>
+      <el-affix :offset="85" target=".article_text" z-index="1">
+        <ArticleCatalog v-if="isRender" container-ref="article_text"/>
+      </el-affix>
     </el-col>
   </el-row>
   <el-row type="flex" justify="center">

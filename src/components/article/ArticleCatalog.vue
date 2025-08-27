@@ -4,7 +4,8 @@ import {computed, onMounted, onUnmounted, ref} from "vue";
 
 const props = defineProps({
   containerRef: {type: String, default: 'article_text'},
-  anchorEl: {type: Array<String>, default: ['h2', 'h3', 'h4', 'h5', 'h6']}
+  anchorEl: {type: Array<String>, default: ['h2', 'h3', 'h4', 'h5', 'h6']},
+  processPosition: {type: Boolean, default: false},
 })
 const containerElRef = ref<HTMLElement | null>(null)
 const catalogMap = ref<Map<string, Object>>(new Map())
@@ -18,6 +19,14 @@ let anchorOffsetTopMap: Map<number, string> = new Map()
 
 const catalogMovePosition = ref<number>(1)
 let catalogTotalHeight: number = 0
+
+const catalogWrapperClassCompute = computed(() => {
+  if (props.processPosition) {
+    return catalogMovePosition.value === 1 ? 'catalog_wrapper_fixed' : 'catalog_wrapper_absolute'
+  } else {
+    return ''
+  }
+})
 
 onMounted(() => {
   parseAnchorEl();
@@ -81,7 +90,9 @@ function catalogHref(elId: string) {
 const catalogListRef = ref(null)
 function handleCatalogAutoListScroll(event) {
   handleCatalogInnerScroll(event)
-  handleCatalogListPosition()
+  if (props.processPosition) {
+    handleCatalogListPosition()
+  }
 }
 
 function handleCatalogInnerScroll(event) {
@@ -125,7 +136,7 @@ function handleCatalogListPosition() {
 </script>
 
 <template>
-<div class="catalog_wrapper" :class="catalogMovePosition === 1 ? 'catalog_wrapper_fixed' : 'catalog_wrapper_absolute'">
+<div class="catalog_wrapper" :class="catalogWrapperClassCompute">
   <div class="catalog_content">
     <div class="catalog_header">
       <span>目录</span>
@@ -165,6 +176,7 @@ function handleCatalogListPosition() {
   width: 100%;
 }
 .catalog_list li {
+  list-style: none;
   height: 25px;
   line-height: 25px;
   font-size: 14px;
@@ -176,7 +188,8 @@ function handleCatalogListPosition() {
   background-color: var(--bodyBgColor);
 }
 .catalog_list li span {
-  overflow: hidden;
+  width: 90%;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;

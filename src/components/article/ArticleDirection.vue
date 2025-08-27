@@ -72,6 +72,10 @@ function queryPrevAndNextArticle() {
   text-decoration: none;
   color: var(--fontColor);
   transition: all 0.5s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .article_direction_item a:hover {
