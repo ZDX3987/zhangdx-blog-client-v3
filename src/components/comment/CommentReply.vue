@@ -5,8 +5,16 @@ import {useMainStore} from "../../stores/store.ts";
 import type {CommentItem} from "../../types/CommentItem.ts";
 import {fromNow} from "../../utils/moment-date.ts";
 import {getAuthorization} from "../../utils/auth-storage.ts";
-import {getCommentListForItem, doSaveComment, doDeleteComment} from "../../api/commentApi.ts";
+import {
+  getCommentListForItem,
+  doSaveComment,
+  doDeleteComment,
+  doSaveReply,
+  doDeleteReply
+} from "../../api/commentApi.ts";
 import {ElMessage} from "element-plus";
+import ReplyInput from "./ReplyInput.vue";
+import {praise} from "../../api/common.ts";
 
 const store = useMainStore();
 const currentAuthUserInfo = computed(() => {
@@ -51,7 +59,10 @@ function saveComment() {
 }
 
 function deleteComment(commentId: number) {
-  doDeleteComment(commentId).then(() => ElMessage.success('评论已删除'))
+  doDeleteComment(commentId).then(() => {
+    ElMessage.success('评论已删除')
+    loadComment()
+  })
 }
 
 function checkForComment() {
@@ -72,9 +83,31 @@ function openReply(replyId: string) {
   currentReplyId.value = replyId
 }
 
-function parseComment(type: number, commentId: number) {
-
+function replyInputBlur(event) {
+  currentReplyId.value = event
 }
+
+function saveReply(replyText: string, rootCommentId: number, replyToId: number, replyType: number, toUserId: number) {
+  if (!getAuthorization()) {
+    return;
+  }
+  doSaveReply(rootCommentId, replyToId, replyText, replyType, currentAuthUserInfo.value.userId, toUserId)
+      .then(() => {
+        ElMessage.success('回复成功')
+        loadComment()
+      })
+}
+
+function deleteReply(replyId: number) {
+  doDeleteReply(replyId).then(() => {
+    ElMessage.success('删除成功')
+    loadComment()
+  })
+}
+
+function parseComment(type: number, commentId: number) {
+}
+
 </script>
 
 <template>
@@ -138,21 +171,20 @@ function parseComment(type: number, commentId: number) {
               <i class="el-icon-delete" aria-hidden="true"/>&nbsp;删除
             </el-link>
           </div>
-<!--          <reply-input v-if="currentReplyId === 'comment_' + commentItem.id" @reply-blur="replyBlur"-->
-<!--                       @save-reply="saveReply($event, commentItem.id, commentItem.id, 1, currentAuthUserInfo?.userId, commentItem.fromUser.id)"/>-->
+          <ReplyInput v-if="currentReplyId === 'comment_' + commentItem.id" @reply-blur="replyInputBlur"
+                       @save-reply="saveReply($event, commentItem.id, commentItem.id, 1, commentItem.fromUser.id)"/>
           <div class="comment_reply_list" v-if="commentItem.replyList.length > 0">
-            <div class="comment_reply_item" v-for="(replyItem, index) in commentItem.replyList"
-                 :key="replyItem.id">
+            <div class="comment_reply_item" v-for="replyItem in commentItem.replyList" :key="replyItem.id">
               <div class="comment_reply_item_avatar">
                 <el-avatar class="comment_reply_avatar" icon="el-icon-user-solid" :src="replyItem.fromUser.avatar"/>
               </div>
               <div class="comment_reply_item_right">
                 <div>
                   <span class="comment_user_name">{{ replyItem.fromUser.nickname }}
-                    <el-tag v-if="authorUserId === commentItem.fromUser.id" class="ml-2" type="success" size="small">作者</el-tag>
+                    <el-tag v-if="authorUserId === replyItem.fromUser.id" class="ml-2" type="success" size="small">作者</el-tag>
                   </span>
                   <span class="comment_user_name" v-if="replyItem.replyType === 2">{{ '回复&nbsp;' + replyItem.toUser.nickname }}
-                    <el-tag v-if="authorUserId === commentItem.toUser.id" class="ml-2" type="success" size="small">作者</el-tag>
+                    <el-tag v-if="authorUserId === replyItem.toUser.id" class="ml-2" type="success" size="small">作者</el-tag>
                   </span>
                   <span class="float-right comment_date">{{ fromNow(replyItem.createDateTime) }}</span>
                 </div>
@@ -173,8 +205,8 @@ function parseComment(type: number, commentId: number) {
                     删除
                   </el-link>
                 </div>
-                <!--                <reply-input ref="replyInput" v-if="currentReplyId === 'reply_' + replyItem.id" @reply-blur="replyBlur"-->
-                <!--                             @save-reply="saveReply($event, commentItem.id, replyItem.id, 2, currentAuthUserInfo?.userId, replyItem.fromUser.id)"/>-->
+                <ReplyInput ref="replyInput" v-if="currentReplyId === 'reply_' + replyItem.id" @reply-blur="replyInputBlur"
+                             @save-reply="saveReply($event, commentItem.id, replyItem.id, 2, replyItem.fromUser.id)"/>
               </div>
             </div>
             <el-link v-if="commentItem.replyList && commentItem.replyList.length > maxShowReplyNum" underline="never"

@@ -25,3 +25,19 @@ export function doSaveComment(itemId: string, content: string, commentType: numb
 export function doDeleteComment(commentId: number): Promise<ApiResponse<any>> {
     return genApiResponse(axios.delete(url + '/' + commentId))
 }
+
+export function doSaveReply(commentId: number, replyId: number, content: string, replyType: number, fromUser: number, toUser: number) {
+    let params = {
+        commentId,
+        replyId,
+        content,
+        replyType,
+        fromUser,
+        toUser
+    }
+    return genApiResponse(axios.post(url + '/reply', params));
+}
+
+export function doDeleteReply(replyId: number) {
+    return genApiResponse(axios.delete(url + '/reply' + replyId))
+}
