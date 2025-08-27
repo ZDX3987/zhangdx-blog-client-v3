@@ -21,3 +21,7 @@ export function getArticleByPage(pageSize: number, queryPage: number, sort: numb
 export function getArticleById(articleId: string): Promise<ApiResponse<ArticleItem>> {
     return genApiResponse(axios.get(url + '/article/' + articleId))
 }
+
+export function getPrevAndNextArticle(articleId: string): Promise<ApiResponse<ArticleItem[]>> {
+    return genApiResponse(axios.get(url + '/prev-next-article/' + articleId))
+}

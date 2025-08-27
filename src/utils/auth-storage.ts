@@ -2,7 +2,7 @@ import {getStorageItem, removeStorageItem, setStorageItem} from "./local-storage
 
 const authorization: string = 'Authorization'
 
-export function getAuthorization() {
+export function getAuthorization(): string | null {
     return getStorageItem(authorization);
 }
 export function setAuthorization(value: string) {

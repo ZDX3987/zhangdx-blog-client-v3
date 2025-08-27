@@ -175,11 +175,13 @@ function handleCatalogListPosition() {
 .catalog_list li:hover {
   background-color: var(--bodyBgColor);
 }
-.active_item {
-  color: var(--mainThemeColor);
+.catalog_list li span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
+}
+.active_item {
+  color: var(--mainThemeColor);
 }
 </style>

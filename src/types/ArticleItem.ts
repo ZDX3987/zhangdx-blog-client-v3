@@ -14,6 +14,7 @@ export class ArticleItem {
     author: Author;
     categories: Category[];
     extraData: ArticleExtraData
+    liked?: boolean
 
     hasCoverImg(): boolean {
         return this.coverImg != null && this.coverImg != '';
