@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import Bg from "./components/layout/Bg.vue";
-import {onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import LoginDialog from "./components/dialog/LoginDialog.vue";
 import Footer from "./components/layout/Footer.vue";
 import {useRoute} from "vue-router";
+import BreadcrumbRouter from "./components/comment/BreadcrumbRouter.vue";
 
 onMounted(() => {
   window.addEventListener('scroll', scrollFixedHeader)
@@ -24,6 +25,9 @@ function scrollFixedHeader() {
 }
 
 const route = useRoute()
+const isHomeRoute = computed(() => {
+  return route.name === 'Home'
+})
 
 </script>
 
@@ -34,6 +38,7 @@ const route = useRoute()
       <HeaderBar></HeaderBar>
     </div>
     <main class="app_main">
+      <BreadcrumbRouter v-if="!isHomeRoute"/>
       <RouterView :key="route.fullPath"/>
     </main>
     <Footer/>
@@ -81,6 +86,6 @@ const route = useRoute()
 .app_main {
   flex: 1;
   min-height: 0;
-  margin-top: 65px;
+  margin-top: 60px;
 }
 </style>

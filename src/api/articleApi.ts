@@ -2,6 +2,7 @@ import axios, {type ApiResponse} from "./axios.ts";
 import type {ArticleItem} from "../types/ArticleItem.ts";
 import {ResultPage} from "../types/ResultPage.ts";
 import {genApiResponse} from "../utils/api-util.ts";
+import type {ArchivesTimeline} from "../types/ArchivesTimeline.ts";
 
 const url = '/api/client/article';
 
@@ -28,4 +29,19 @@ export function getPrevAndNextArticle(articleId: string): Promise<ApiResponse<Ar
 
 export function getRelatedArticles(articleId: string): Promise<ApiResponse<ArticleItem[]>> {
     return genApiResponse(axios.get(url + '/related-articles/' + articleId))
+}
+
+export function getArchivesTimeline(): Promise<ApiResponse<ArchivesTimeline[]>> {
+    return genApiResponse(axios.get(url + '/archives/timeline'));
+}
+
+export function getArticleForArchives(queryDateStr: string, currentPage: number, pageSize?: number, queryStatus?: number, sort?: string): Promise<ApiResponse<ResultPage<ArticleItem>>> {
+    let formData = {
+        queryDateStr: queryDateStr,
+        pageSize: pageSize || 15,
+        currentPage: currentPage,
+        articleStatus: queryStatus || 2,
+        sort: sort || 'DESC',
+    }
+    return genApiResponse(axios.get(url + '/archives/page-article', {params: formData}))
 }
