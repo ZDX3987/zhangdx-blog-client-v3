@@ -40,3 +40,10 @@ export function unPraise(itemId: number, operatorId: number, likeType: 1 | 2) {
     };
     return genApiResponse(axios.post('/api/blog_like/del', params))
 }
+export function getContentByRouter(route: string, value: string): Promise<ApiResponse<any>> {
+    let params = {
+        route: route,
+        documentId: value
+    };
+    return genApiResponse(axios.get( '/api/client/content/list-by-router', {params: params}));
+}

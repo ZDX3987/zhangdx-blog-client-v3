@@ -73,7 +73,7 @@ const routes = [
         }
     },
     {
-        path: '/content/**',
+        path: '/content/:pathMatch',
         name: 'BlogContent',
         component: () => import('../views/BlogContent.vue')
     },
