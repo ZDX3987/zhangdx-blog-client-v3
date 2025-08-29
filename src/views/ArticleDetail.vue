@@ -32,6 +32,7 @@ onMounted(() => {
   VditorPreview.mermaidRender(document)
   getArticleById(articleId.value).then(res => {
     article.value = toClass(res.data, ArticleItem)
+    document.title = article.value.title + ' - ' + document.title
     renderArticle(article.value, () => isRender.value = true)
   })
 })

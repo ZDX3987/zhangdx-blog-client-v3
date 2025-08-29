@@ -15,6 +15,7 @@ function getContent() {
   getContentByRouter(route.path, route.params.pathMatch).then(res => {
     contentName.value = res.data.name
     contentHtml.value = res.data.html
+    document.title = contentName.value + ' - ' + document.title
   })
 }
 </script>

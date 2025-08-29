@@ -75,7 +75,7 @@ const routes = [
     {
         path: '/content/:pathMatch',
         name: 'BlogContent',
-        component: () => import('../views/BlogContent.vue')
+        component: () => import('../views/BlogContent.vue'),
     },
 
 ]
@@ -86,6 +86,14 @@ const router = createRouter({
     scrollBehavior: () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+    }
+})
+
+router.afterEach((route, to, from) => {
+    if (route.meta.title !== undefined) {
+        document.title = route.meta.title + ' - ZHANGDX的博客'
+    } else {
+        document.title = 'ZHANGDX的博客'
     }
 })
 
