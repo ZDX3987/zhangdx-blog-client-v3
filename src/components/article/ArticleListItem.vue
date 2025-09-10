@@ -19,7 +19,7 @@ const props = defineProps({
         </el-image>
       </RouterLink>
     </el-col>
-    <el-col class="article_item_right" :class="articleItem.hasCoverImg() ? 'article_item_right_pl' : ''" :sm="articleItem.hasCoverImg() ? 16 : 24">
+    <el-col class="article_item_right" :class="articleItem.hasCoverImg() ? 'ps-md-3' : ''" :sm="articleItem.hasCoverImg() ? 16 : 24">
       <h2 class="item_title_h2">
         <RouterLink class="item_title" :to="{name: 'ArticleDetail', params: { articleId: articleItem.articleId }}"
                     v-html="articleItem.title"/>
@@ -62,11 +62,6 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.article_item_left {
-}
-.article_item_right_pl {
-  padding-left: 20px;
-}
 .cover_img {
   width: 100%;
   height: 150px;

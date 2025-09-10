@@ -28,7 +28,7 @@ function queryTopicList(queryPage: number) {
     <el-col :lg="16" :md="20" :xs="22" :sm="22">
       <el-row>
         <el-col :md="{span: 11, offset: 0}" :xs="{span: 22, offset: 1}" :sm="{span: 22, offset: 1}"
-          v-for="topic in topicList" :key="topic.id">
+          v-for="topic in topicList" :key="topic.id" class="mb-3 me-md-3">
             <TopicCard :topic-item="topic"/>
         </el-col>
       </el-row>
