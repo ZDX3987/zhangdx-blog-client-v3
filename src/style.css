@@ -20,3 +20,9 @@ html,body {
 .search-keyword-highlight {
     color: var(--mainThemeColor);
 }
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

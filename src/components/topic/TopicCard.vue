@@ -16,7 +16,7 @@ const carouselLength = computed(() => {
 <template>
 <div class="topic_card p-3">
   <div class="topic_title">
-    <RouterLink  class="d-block mb-3 text-truncate" :to="{name: 'TopicDetail', params: {id: topicItem.id}}">
+    <RouterLink class="d-block mb-3 text-truncate" :to="{name: 'TopicDetail', params: {id: topicItem.id}}">
       {{topicItem.title}}
     </RouterLink>
     <span class="float-left">更新于：{{dateFormat(topicItem.updateDate, 'yyyy-MM-DD')}}</span>
