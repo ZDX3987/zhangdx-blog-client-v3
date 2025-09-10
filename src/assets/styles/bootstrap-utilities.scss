@@ -1,0 +1,11 @@
+// 必须的基础依赖
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+
+// 引入 Utility 配置
+@import "bootstrap/scss/utilities";
+
+// 根据配置生成 Utility 类
+@import "bootstrap/scss/utilities/api";
